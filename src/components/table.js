@@ -4,9 +4,9 @@ import { ScrollView, StyleSheet } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 const Table = () => {
   const data = [
-    { label: "Present", value: "0" },
-    { label: "Absent", value: "1" },
-    { label: "Leave", value: "2" },
+    { label: "P", value: "0" },
+    { label: "A", value: "1" },
+    { label: "L", value: "2" },
   ];
   const [value, setValue] = React.useState(null);
   const optionsPerPage = [2, 3, 4];

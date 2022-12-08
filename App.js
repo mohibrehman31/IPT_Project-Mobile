@@ -1,52 +1,39 @@
-import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
-// import { DataTable } from "react-native-paper";
-import Table from "./Components/table";
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
+import React from 'react'
+import { Provider } from 'react-native-paper'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { theme } from './src/core/theme'
+import {
+  StartScreen,
+  StudentLogin,
+  TeacherLogin,
+  Dashboard,
+  EnterData,
+  MarkAttendance,
+  SelectDate
+} from './src/screens'
 
-const App = () => {
+const Stack = createStackNavigator()
+
+export default function App() {
   return (
-    <View>
-      <Header />
-      <Text
-        style={{
-          color: "Blue",
-          fontSize: 20,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        Flex
-      </Text>
-      <Table />
-      <Footer />
-    </View>
-  );
-};
-const styles = StyleSheet.create({
-  dropdown: {
-    margin: 16,
-    height: 50,
-    borderBottomColor: "gray",
-    borderBottomWidth: 0.5,
-  },
-  icon: {
-    marginRight: 5,
-  },
-  placeholderStyle: {
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  inputSearchStyle: {
-    height: 40,
-    fontSize: 16,
-  },
-});
-export default App;
+    <Provider theme={theme}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="MarkAttendance"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="StartScreen" component={StartScreen} />
+          <Stack.Screen name="StudentLogin" component={StudentLogin} />
+          <Stack.Screen name="TeacherLogin" component={TeacherLogin} />
+          <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="EnterData" component={EnterData} />
+          <Stack.Screen name="SelectDate" component={SelectDate} />
+          <Stack.Screen name="MarkAttendance" component={MarkAttendance} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  )
+}
