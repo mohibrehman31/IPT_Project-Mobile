@@ -1,21 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import Button from "../components/Button";
 import axios from "react-native-axios";
 export default function EnterData({ navigation }) {
-  const CourseChange = () => {
+  const [courses, setCourses] = useState([]);
+  const [sections, setSections] = useState([]);
+  const [creditHrs, setCreditHrs] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState("");
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        await axios
+          .get("https://localhost:44323/api/GetTeaches")
+          .then((responce) => {
+            setCourses(responce.data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+        await axios
+          .get("https://localhost:44323/api/GetSections")
+          .then((responce) => {
+            setSections(responce.data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    setCreditHrs([{ CrHr: 1 }, { CrHr: 2 }, { CrHr: 3 }]);
+    getData();
+  }, []);
+  const CourseChange = (course) => {
     console.log(course);
-    try {
-      axios.get("http://127.0.0.1:8000/").then((responce) => {
-        // setStudents(responce.data);
-        responce.forEach((element) => {
-          console.log(element);
-        });
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    setSelectedCourse(course);
   };
   const [course, setCourse] = useState();
   const data = [
@@ -29,14 +50,14 @@ export default function EnterData({ navigation }) {
         style={styles.dropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
-        data={data}
-        labelField="label"
-        valueField="value"
+        data={courses}
+        labelField="courses"
+        valueField="cou"
         placeholder="Course"
-        value={data.value}
+        value="courses"
         onChange={(item) => {
-          setCourse("dsa");
-          CourseChange();
+          // setCourse("dsa");
+          CourseChange(item["courses"]);
         }}
       />
 
@@ -44,13 +65,14 @@ export default function EnterData({ navigation }) {
         style={styles.dropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
-        data={data}
-        labelField="label"
+        data={sections}
+        labelField="sections"
         valueField="value"
         placeholder="Section"
-        value={data.value}
+        value="sections"
         onChange={(item) => {
-          setValue(item.value);
+          // setValue(item.value);
+          console.log(item["sections"]);
         }}
       />
 
@@ -58,13 +80,14 @@ export default function EnterData({ navigation }) {
         style={styles.dropdown}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
-        data={data}
-        labelField="label"
+        data={creditHrs}
+        labelField="creditHrs"
         valueField="value"
         placeholder="Credit Hours"
-        value={data.value}
+        value="creditHrs"
         onChange={(item) => {
-          setValue(item.value);
+          // setValue(item.value);
+          console.log(item["CrHr"]);
         }}
       />
 

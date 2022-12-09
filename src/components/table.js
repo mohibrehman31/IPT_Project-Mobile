@@ -33,31 +33,7 @@ const Table = () => {
       name: "Johanson",
       points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
     },
-    {
-      id: 1,
-      name: "David",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 2,
-      name: "John",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 3,
-      name: "Sam",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 4,
-      name: "Johanson",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 1,
-      name: "David",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
+
     {
       id: 2,
       name: "John",

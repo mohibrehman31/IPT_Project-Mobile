@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 // import { DataTable } from "react-native-paper";
 import Table from "../components/table";
 import Header from "../components/Header";
@@ -19,6 +19,7 @@ export default function MarkAttendance({ navigation }) {
         Flex
       </Text>
       <Table />
+      <Button title="Submit" style={{}}></Button>
       <Footer />
     </View>
   );
