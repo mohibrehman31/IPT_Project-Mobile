@@ -4,8 +4,8 @@ import { View, Text, StyleSheet } from "react-native";
 import Table from "../components/table";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-
-export default function MarkAttendance({ navigation })  {
+import axios from "react-native-axios";
+export default function MarkAttendance({ navigation }) {
   return (
     <View>
       <Header />
@@ -13,7 +13,7 @@ export default function MarkAttendance({ navigation })  {
         style={{
           color: "Blue",
           fontSize: 20,
-          textAlign: "center"
+          textAlign: "center",
         }}
       >
         Flex
