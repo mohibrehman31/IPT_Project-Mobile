@@ -27,46 +27,66 @@ namespace WebApplication1.Controllers
           SqlDataReader dataReader;
 
           [HttpPost]
-          [Route("PostUpdatedAttendances")]
-
-          public string PostUpdatedAttendances(Attendance atteendance)
+          [Route("GetUpdatedAttendances")]
+          public ArrayList GetUpdatedAttendances()
           {
-               string response = String.Empty;
+
+               StudentAttendanceViewModel obj = new StudentAttendanceViewModel();
+               ArrayList content = new ArrayList();
                try
                {
+                    string commandText = "select Student.Rollno,Student.Name,Student_Attendance.Attendance from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno inner join Student_Attendance on Student_Attendance.Roll_no=Student.Rollno  where Studies.Course_Code='CS3002' and Studies.section ='7G' and Student_Attendance.Date='02-08-2012'";
+                    da = new SqlDataAdapter(commandText, conn);
 
-                    //string commandText = "insert into StudentAttendance values(@date, @CrHr, @Att, @SrNo, @Studies_Student_Rollno, @Studies_Course_Code);";
-                    //cmd = new SqlCommand(commandText, conn);
-                    //_ = cmd.Parameters.Add("@date", atteendance.Date);
-                    //_ = cmd.Parameters.Add("@CrHr", atteendance.CrHr);
-                    //_ = cmd.Parameters.Add("@Att", atteendance.Att);
-                    //_ = cmd.Parameters.Add("@SrNo", atteendance.SrNo);
-                    //_ = cmd.Parameters.Add("@Studies_Student_Rollno", atteendance.Studies_Student_Rollno);
-                    //_ = cmd.Parameters.Add("@Studies_Course_Code", atteendance.Studies_Course_Code);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    if (dt.Rows.Count <= 0)
+                    {
+                         string commandText1 = "select Student.Rollno,Student.Name from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno  where Studies.Course_Code='CS3002' and Studies.section ='7G'";
+                         SqlDataAdapter da1 = new SqlDataAdapter(commandText1, conn);
+
+                         DataTable dt1 = new DataTable();
+                         da1.Fill(dt1);
+
+                         foreach (DataRow row in dt1.Rows)
+                         {
+
+                              string Rollno = row["Rollno"].ToString();
+                              string Name = row["Name"].ToString();
+
+                              obj.attendance = String.Empty;
+                              obj.id = Rollno;
+                              obj.name = Name;
+                              content.Add(JObject.Parse(JsonConvert.SerializeObject(obj)));
+                         }
+
+                    }
+                    else
+                    {
 
 
-                    //conn.Open();
-                    //int r = cmd.ExecuteNonQuery();
-                    //conn.Close();
+                         foreach (DataRow row in dt.Rows)
+                         {
 
-                    //if (r > 0)
-                    //{
-                    //    response = "Success";
-                    //}
-                    //else
-                    //{
-                    //    response = "Faield";
-                    //}
+                              string Rollno = row["Rollno"].ToString();
+                              string Name = row["Name"].ToString();
+                              string atten = row["Att"].ToString();
+
+                              obj.attendance = atten;
+                              obj.id = Rollno;
+                              obj.name = Name;
+                              content.Add(JObject.Parse(JsonConvert.SerializeObject(obj)));
+                         }
+                    }
                }
 
                catch (Exception e)
                {
-                    //response = "Failed";
+                    Console.WriteLine(e);
                }
 
-               return "ok";
+               return content;
           }
-
 
 
           [HttpPost]
