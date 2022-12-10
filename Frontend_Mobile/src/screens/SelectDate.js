@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import DatePicker from "@dietime/react-native-date-picker";
 import Button from "../components/Button";
@@ -12,6 +12,20 @@ export default function App({ navigation }) {
   //     String(new Date().getFullYear());
 
   const [date, setDate] = useState();
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+
+
+
+  useEffect(() => {
+
+    
+    let newDate = new Date()
+    setDate(newDate)
+
+
+  },[])
+ 
 
   return (
     <View style={styles.container}>

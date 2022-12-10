@@ -4,8 +4,8 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import Table from "../components/table";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import axios from "react-native-axios";
 export default function MarkAttendance({ navigation }) {
+  
   return (
     <View>
       <Header />
@@ -18,8 +18,7 @@ export default function MarkAttendance({ navigation }) {
       >
         Flex
       </Text>
-      <Table />
-      <Button title="Submit" style={{}}></Button>
+      <Table/>
       <Footer />
     </View>
   );

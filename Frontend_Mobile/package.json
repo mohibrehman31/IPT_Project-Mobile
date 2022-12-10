@@ -11,14 +11,17 @@
   "dependencies": {
     "@dietime/react-native-date-picker": "latest",
     "@expo/vector-icons": "^13.0.0",
+    "@expo/webpack-config": "^0.17.2",
     "@react-navigation/native": "*",
     "@react-navigation/stack": "*",
+    "axios": "^1.2.1",
     "expo": "~47.0.8",
     "expo-constants": "~14.0.2",
     "expo-linear-gradient": "~12.0.1",
     "expo-status-bar": "~1.4.2",
     "lodash": "*",
     "react": "18.1.0",
+    "react-dom": "18.1.0",
     "react-native": "0.70.5",
     "react-native-axios": "^0.17.1",
     "react-native-dropdown-picker": "*",
@@ -30,9 +33,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-status-bar-height": "*",
     "react-native-table-component": "^1.2.2",
-    "react-native-web": "~0.18.9",
-    "react-dom": "18.1.0",
-    "@expo/webpack-config": "^0.17.2"
+    "react-native-web": "~0.18.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

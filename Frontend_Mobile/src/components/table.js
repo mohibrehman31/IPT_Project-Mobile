@@ -1,78 +1,51 @@
 import * as React from "react";
 import { DataTable } from "react-native-paper";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet,Button } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import axios from "react-native-axios";
+
 const Table = () => {
   const data = [
     { label: "P", value: "0" },
     { label: "A", value: "1" },
     { label: "L", value: "2" },
   ];
-  const [value, setValue] = React.useState(null);
+  const [value, setValue] = React.useState();
   const optionsPerPage = [2, 3, 4];
   const [page, setPage] = React.useState(0);
   const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0]);
-  const [states, setStates] = React.useState([
-    {
-      id: 1,
-      name: "David",
-      points: { data },
-    },
-    {
-      id: 2,
-      name: "John",
-      points: { data },
-    },
-    {
-      id: 3,
-      name: "Sam",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 4,
-      name: "Johanson",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-
-    {
-      id: 2,
-      name: "John",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 3,
-      name: "Sam",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 4,
-      name: "Johanson",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 1,
-      name: "David",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 2,
-      name: "John",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 3,
-      name: "Sam",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-    {
-      id: 4,
-      name: "Johanson",
-      points: [3, 4, 8, 2, 5, 3, 9, 5, -4, -6, 2],
-    },
-  ]);
-
+  const [states, setStates] = React.useState([]);
+  const handleSubmit = async () =>{
+    try {
+        await axios
+          .post("https://localhost:44323/api/PostUpdatedAttendances",{
+            attendances : states
+          })
+          .then((responce) => {
+            console.log(responce.data)
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      console.log(states);
+    }
   React.useEffect(() => {
+     
     setPage(0);
+    const getData = async () => {
+      try {
+        await axios
+          .get("https://localhost:44323/api/GetUpdatedAttendances")
+          .then((responce) => {
+            setStates(responce.data)
+          
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
+    getData();
   }, [itemsPerPage]);
 
   return (
@@ -96,9 +69,17 @@ const Table = () => {
                 labelField="label"
                 valueField="value"
                 placeholder="Enter"
-                value={x.value}
+                value={data}
                 onChange={(item) => {
-                  setValue(item.value);
+                  x.attendance = item.label;
+
+                  var updateStates = states;
+                  for (var i=0; i < updateStates.length; i++) {
+                    if (updateStates[i].id === x["id"]){
+                      updateStates[i].attendance = item.label
+                    }
+                  } 
+                  setStates(updateStates)
                 }}
               />
             </DataTable.Cell>
@@ -116,7 +97,9 @@ const Table = () => {
           optionsLabel={"Rows per page"}
         />
       </DataTable>
+      <Button title="Submit" style={{}} onPress= {handleSubmit}></Button>
     </ScrollView>
+    
   );
 };
 

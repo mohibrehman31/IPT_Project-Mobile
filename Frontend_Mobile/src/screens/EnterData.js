@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import Button from "../components/Button";
-import axios from "react-native-axios";
+import axios from "axios";
 export default function EnterData({ navigation }) {
   const [courses, setCourses] = useState([]);
   const [sections, setSections] = useState([]);
@@ -11,9 +11,13 @@ export default function EnterData({ navigation }) {
 
   useEffect(() => {
     const getData = async () => {
+
+
       try {
-        await axios
-          .get("https://localhost:44323/api/GetTeaches")
+        await axios.post("https://localhost:44323/api/GetTeaches",{
+          'id' : 'CS1313'
+        }
+          )
           .then((responce) => {
             setCourses(responce.data);
           });
@@ -23,7 +27,11 @@ export default function EnterData({ navigation }) {
 
       try {
         await axios
-          .get("https://localhost:44323/api/GetSections")
+          .post("https://localhost:44323/api/GetSections",
+          {
+            'teacher_id' : 'CS1313',
+            'courses' : 'CS3002'
+          })
           .then((responce) => {
             setSections(responce.data);
           });
@@ -33,11 +41,16 @@ export default function EnterData({ navigation }) {
     };
     setCreditHrs([{ CrHr: 1 }, { CrHr: 2 }, { CrHr: 3 }]);
     getData();
+    console.log(creditHrs)
   }, []);
-  const CourseChange = (course) => {
-    console.log(course);
-    setSelectedCourse(course);
-  };
+
+  const handleSubmit = () => {
+
+
+    
+    navigation.navigate("SelectDate")
+  }
+
   const [course, setCourse] = useState();
   const data = [
     { label: "Present", value: "0" },
@@ -56,8 +69,9 @@ export default function EnterData({ navigation }) {
         placeholder="Course"
         value="courses"
         onChange={(item) => {
-          // setCourse("dsa");
-          CourseChange(item["courses"]);
+
+          setSelectedCourse(item["courses"]);
+        
         }}
       />
 
@@ -75,6 +89,7 @@ export default function EnterData({ navigation }) {
           console.log(item["sections"]);
         }}
       />
+      
 
       <Dropdown
         style={styles.dropdown}
@@ -93,7 +108,7 @@ export default function EnterData({ navigation }) {
 
       <Button
         mode="contained"
-        onPress={() => navigation.navigate("SelectDate")}
+        onPress={handleSubmit}
       >
         Next
       </Button>
