@@ -238,7 +238,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Attendance.cs" />
+    <Compile Include="Models\GetParamAttendance.cs" />
+    <Compile Include="Models\GetParamSections.cs" />
+    <Compile Include="Models\PostAttendance.cs" />
+    <Compile Include="Models\CourseSectionModel.cs" />
     <Compile Include="Models\TeachesViewModel.cs" />
     <Compile Include="Models\SectionViewModel.cs" />
     <Compile Include="Models\StudentAttendanceViewModel.cs" />

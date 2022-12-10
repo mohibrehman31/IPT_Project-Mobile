@@ -5,10 +5,9 @@ using System.Web;
 
 namespace ProjectBackend.Models
 {
-    public class Attendance
+    public class PostAttendance
     {
         public DateTime Date { get; set; }
-
         public int CrHr { get; set; }
         public string Att {get; set; }
         public int SrNo { get; set; }

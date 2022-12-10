@@ -26,7 +26,7 @@ namespace ProjectBackend.Controllers
 
         [HttpPost]
         [Route("RegisterStudent")]
-        public ActionResult RegisterStudent(Attendance atteendance)
+        public ActionResult RegisterStudent(PostAttendance atteendance)
         {
             string response = String.Empty;
             string subjects = String.Empty;
@@ -35,7 +35,7 @@ namespace ProjectBackend.Controllers
             try
             {
                 //insert into StudentAttendance values(@date, @CrHr, @Att, @SrNo, @Studies_Student_Rollno, @Studies_Course_Code);
-                
+
                 string commandText = "insert into StudentAttendance values('02/08/2022',2,'P',1,'19K1364','CS3002');";
                 cmd = new SqlCommand(commandText, conn);
                 //cmd.Parameters.Add("@date", atteendance.Date);
@@ -44,7 +44,7 @@ namespace ProjectBackend.Controllers
                 //cmd.Parameters.Add("@SrNo", atteendance.SrNo);
                 //cmd.Parameters.Add("@Studies_Student_Rollno", atteendance.Studies_Student_Rollno);
                 //cmd.Parameters.Add("@Studies_Course_Code", atteendance.Studies_Course_Code);
-     
+
 
                 conn.Open();
                 int r = cmd.ExecuteNonQuery();

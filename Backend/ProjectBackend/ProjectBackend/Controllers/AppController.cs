@@ -8,6 +8,7 @@ using System.Collections;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Web.Http.Cors;
+using System.Web.WebPages;
 
 namespace ProjectBackend.Controllers
 {
@@ -24,20 +25,13 @@ namespace ProjectBackend.Controllers
         [HttpPost]
         [Route("RegisterStudent")]
         
-        public string RegisterStudent(Attendance atteendance)
+        public string RegisterStudent([FromBody] PostAttendance atteendance)
         {
             string response = String.Empty;
             try
             {
 
-                string commandText = "insert into StudentAttendance values(@date, @CrHr, @Att, @SrNo, @Studies_Student_Rollno, @Studies_Course_Code);";
-                cmd = new SqlCommand(commandText, conn);
-                _ = cmd.Parameters.Add("@date", atteendance.Date);
-                _ = cmd.Parameters.Add("@CrHr", atteendance.CrHr);
-                _ = cmd.Parameters.Add("@Att", atteendance.Att);
-                _ = cmd.Parameters.Add("@SrNo", atteendance.SrNo);
-                _ = cmd.Parameters.Add("@Studies_Student_Rollno", atteendance.Studies_Student_Rollno);
-                _ = cmd.Parameters.Add("@Studies_Course_Code", atteendance.Studies_Course_Code);
+                string commandText = "insert into StudentAttendance values(@date, @CrHr, @Att, @Studies_Student_Rollno, @Studies_Course_Code);";
 
 
                 conn.Open();
@@ -62,20 +56,26 @@ namespace ProjectBackend.Controllers
             return response;
         }
 
+
         [HttpGet]
         [Route("GetTeaches")]
-        public ArrayList GetTeaches()
+        public ArrayList GetTeaches([FromBody] TeachesViewModel i)
         {
+            /*cParameters.Add("@code", code);*/
             ArrayList rw;
             ArrayList temp = new ArrayList();
             TeachesViewModel  obj = new TeachesViewModel();
-
+            
 
             try
             {
 
-                string commandText = "select Course_Code from Teaches where Teacher_Teacherid='CS1313'";
+                string commandText = "select Course_Code from Teaches where Teacher_Teacherid="+"'"+i.courses + "'";
+                
                 da = new SqlDataAdapter(commandText, conn);
+
+                //Int32 rowsAffected = command.ExecuteNonQuery();
+                //Console.WriteLine("RowsAffected: {0}", rowsAffected);
 
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -95,11 +95,63 @@ namespace ProjectBackend.Controllers
             }          
             return temp;
         }
+        
+        
+        [HttpGet]
+        [Route("GetTeachesSections")]
+        public ArrayList GetTeachesSections()
+        {
+            ArrayList rw = new ArrayList();
+            ArrayList Course_Array = new ArrayList();
+            ArrayList Section_Array = new ArrayList();
+            TeachesViewModel obj = new TeachesViewModel();
+            SectionViewModel obj2 = new SectionViewModel();
+            CourseSectionModel obj3 = new CourseSectionModel();
 
+
+            try
+            {
+                string commandText = "select Course_Code from Teaches where Teacher_Teacherid='CS1313'";
+                da = new SqlDataAdapter(commandText, conn);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    rw = new ArrayList();
+                    string course = row["Course_Code"].ToString();
+
+                    obj3.courses = course;
+                    string commandText2 = "select section from Teaches where Teacher_Teacherid='CS1313' and Course_Code='CS3002'";
+                    da = new SqlDataAdapter(commandText2, conn);
+
+                    DataTable dt2 = new DataTable();
+                    da.Fill(dt);
+
+                    foreach (DataRow row2 in dt.Rows)
+                    {
+                        string sections = row2["section"].ToString();
+
+                        if (!sections.IsEmpty())
+                        {
+                            Section_Array.Add(sections);
+                        }
+                        
+                    }
+                    obj3.sections = Section_Array;
+                    rw.Add(JObject.Parse(JsonConvert.SerializeObject(obj3)));
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            return rw;
+        }
 
         [HttpGet]
         [Route("GetSections")]
-        public ArrayList GetSections()
+        public ArrayList GetSections([FromBody] GetParamSections i)
         {
             ArrayList regis = new ArrayList();
             ArrayList rw;
@@ -107,7 +159,7 @@ namespace ProjectBackend.Controllers
             try
             {
 
-                string commandText = "select section from Teaches where Teacher_Teacherid='CS1313' and Course_Code='CS3002'";
+                string commandText = "select section from Teaches where Teacher_Teacherid=" + "'" + i.teacher_id + "'" + "and Course_Code=" + "'" + i.courses + "'";
                 da = new SqlDataAdapter(commandText, conn);
 
                 DataTable dt = new DataTable();
@@ -138,13 +190,12 @@ namespace ProjectBackend.Controllers
         [Route("GetAttendances")]
         public ArrayList GetAttendances()
         {
-            ArrayList regis = new ArrayList();
             ArrayList rw;
             StudentAttendanceViewModel obj = new StudentAttendanceViewModel();
             ArrayList content = new ArrayList();
             try
             {
-                string commandText = "select Student.Rollno,Student.Name,StudentAttendance.Att from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno inner join StudentAttendance on StudentAttendance.Studies_Student_Rollno=Student.Rollno where Studies.Course_Code='CS3002' and Studies.section ='7G' and StudentAttendance.Date='2022-02-08'";
+                string commandText = "select Student.Rollno,Student.Name from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno  where Studies.Course_Code='CS3002' and Studies.section ='7G' ";
                 da = new SqlDataAdapter(commandText, conn);
 
                 DataTable dt = new DataTable();
@@ -173,112 +224,77 @@ namespace ProjectBackend.Controllers
             return content; 
         }
 
-        //[HttpPost]
-        //[Route("UpdateAttendance")]
-        //public string UpdateAttendance(admins adminData)
-        //{
+        [HttpGet]
+        [Route("GetUpdatedAttendances")]
+        public ArrayList GetUpdatedAttendances([FromBody] GetParamAttendance i )
+        {
+            
+            StudentAttendanceViewModel obj = new StudentAttendanceViewModel();
+            ArrayList content = new ArrayList();
+            try
+            {
+                string commandText = "select Student.Rollno,Student.Name,StudentAttendance.Att from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno inner join StudentAttendance on StudentAttendance.Studies_Student_Rollno=Student.Rollno  where Studies.Course_Code=" + "'" + i.courses + "'" + " and Studies.section =" + "'" + i.sections + "'" + " and StudentAttendance.Date=" + "'" + i.date + "'";
+                da = new SqlDataAdapter(commandText, conn);
 
-        //    string resp = String.Empty;
-        //    string commandText = String.Empty;
-        //    int r = 0;
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                if (dt.Rows.Count <= 0)
+                {
+                    string commandText1 = "select Student.Rollno,Student.Name from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno  where Studies.Course_Code=" + "'" + i.courses + "'" + " and Studies.section =" + "'" + i.sections;
+                    SqlDataAdapter da1 = new SqlDataAdapter(commandText1, conn);
 
-        //    try
-        //    {
-        //        commandText = "select firstName from teachers where email = @email;";
-        //        da = new SqlDataAdapter(commandText, conn);
-        //        da.SelectCommand.Parameters.Add("@email", adminData.email);
+                    DataTable dt1 = new DataTable();
+                    da1.Fill(dt1);
 
-        //        DataTable dt = new DataTable();
-        //        da.Fill(dt);
+                    foreach (DataRow row in dt1.Rows)
+                    {
 
-        //        commandText = "select firstName from admins where email = @email;";
-        //        da = new SqlDataAdapter(commandText, conn);
-        //        da.SelectCommand.Parameters.Add("@email", adminData.email);
+                        string Rollno = row["Rollno"].ToString();
+                        string Name = row["Name"].ToString();
 
-        //        DataTable dt2 = new DataTable();
-        //        da.Fill(dt2);
+                        obj.attendance = String.Empty;
+                        obj.id = Rollno;
+                        obj.name = Name;
+                        content.Add(JObject.Parse(JsonConvert.SerializeObject(obj)));
+                    }
 
-        //        if (dt.Rows.Count != 0 || dt2.Rows.Count != 0)
-        //        {
-        //            return "Taken";
+                }
+                else
+                {
+                    
 
-        //        }
-        //    }
+                    foreach (DataRow row in dt.Rows)
+                    {
 
-        //    catch (Exception e)
-        //    {
-        //        return "Failed";
-        //    }
+                        string Rollno = row["Rollno"].ToString();
+                        string Name = row["Name"].ToString();
+                        string atten = row["Att"].ToString();
 
+                        obj.attendance = atten;
+                        obj.id = Rollno;
+                        obj.name = Name;
+                        content.Add(JObject.Parse(JsonConvert.SerializeObject(obj)));
+                    }
+                }
+            }
 
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
+            return content;
+        }
 
-        //    try
-        //    {
+        [HttpGet]
+        [Route("GetTeaches1")]
+        public String GetTeaches1([FromBody] GetParamSections i)
+        {
+            string commandText = "select section from Teaches where Teacher_Teacherid=" + "'" + i.teacher_id + "'" + "and Course_Code=" + "'" + i.courses + "'";
 
-        //        if (role == "admin")
-        //        {
-        //            commandText = "UPDATE admins SET email = @email, password = @password WHERE id = @id;";
-        //            cmd = new SqlCommand(commandText, conn);
-        //            cmd.Parameters.Add("@id", AData.id);
+            return commandText;
+        }
 
-        //        }
+    }
 
-        //        else if (role == "teacher")
-        //        {
-        //            commandText = "UPDATE teachers SET email = @email, password = @password WHERE id = @id;";
-        //            cmd = new SqlCommand(commandText, conn);
-        //            cmd.Parameters.Add("@id", TData.id);
-
-        //        }
-        //        else
-        //        {
-        //            return "Failed";
-        //        }
-
-        //        cmd.Parameters.Add("@email", adminData.email);
-        //        cmd.Parameters.Add("@password", adminData.password);
-
-
-        //        conn.Open();
-        //        r = cmd.ExecuteNonQuery();
-        //        conn.Close();
-
-        //        if (r > 0)
-        //        {
-
-        //            if (role == "admin")
-        //            {
-        //                AData.email = adminData.email;
-        //                AData.password = adminData.password;
-
-        //            }
-
-        //            else
-        //            {
-        //                TData.email = adminData.email;
-        //                TData.password = adminData.password;
-
-        //            }
-
-        //            resp = "Success";
-        //        }
-
-        //        else
-        //        {
-        //            resp = "Failed";
-        //        }
-
-        //    }
-
-        //    catch (Exception e)
-        //    {
-        //        resp = "Failed";
-
-        //    }
-
-
-        //    return resp;
-    //}
-}
 }

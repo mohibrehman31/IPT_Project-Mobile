@@ -1,0 +1,56 @@
+[HttpGet]
+        [Route("GetAttendances")]
+        public ArrayList GetAttendances()
+        {
+            ArrayList regis = new ArrayList();
+            ArrayList rw;
+            StudentAttendanceViewModel obj = new StudentAttendanceViewModel();
+            ArrayList content = new ArrayList();
+            try
+            {
+                string commandText2 = "select Student.Rollno,Student.Name from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno inner join StudentAttendance on StudentAttendance.Studies_Student_Rollno=Student.Rollno where Studies.Course_Code='CS3002' and Studies.section ='7G' and StudentAttendance.Date='2022-02-08'";
+                da = new SqlDataAdapter(commandText2, conn);
+
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                if (dt.Rows.Count <= 0)
+                {
+                    string commandText = "select Student.Rollno,Student.Name from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno  where Studies.Course_Code='CS3002' and Studies.section ='7G' ";
+                    da = new SqlDataAdapter(commandText, conn);
+
+                    DataTable dt1 = new DataTable();
+                    da.Fill(dt1);
+
+                    foreach (DataRow row in dt1.Rows)
+                    {
+                        rw = new ArrayList();
+                        string Rollno = row["Rollno"].ToString();
+                        string Name = row["Name"].ToString();
+                        string att = row["att"].ToString();
+
+                        obj.attendance = att;
+                        obj.id = Rollno;
+                        obj.name = Name;
+                        content.Add(JObject.Parse(JsonConvert.SerializeObject(obj)));
+                    }
+
+                }
+                else
+                {
+
+                }
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return content;
+        }
+
+
+
+
+                
+        }
