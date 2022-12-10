@@ -13,9 +13,9 @@ export const MarkAttendance = () => {
       try {
         await axios
           .post("https://localhost:44323/api/GetUpdatedAttendances", {
-            sections: "7G",
-            courses: "CS3002",
-            date: "02-08-2022",
+            Course_code: "CS3002",
+            section: "7G",
+            Date: "08-02-2022",
           })
           .then((responce) => {
             console.log(responce.data);
@@ -38,6 +38,7 @@ export const MarkAttendance = () => {
   ];
   return (
     <div className="auth-form-container">
+      <h4>Teacher:CS1313&emsp;&emsp;Course: CS3002&emsp;&emsp;Section: 7G&emsp;&emsp;Date: 12/11/2022&emsp;&emsp;Cr Hrs: 2</h4>
       <div className="tableApp">
         <table>
           <tr>

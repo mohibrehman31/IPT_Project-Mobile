@@ -8,6 +8,7 @@ import { StartPage } from "./screens/StartPage";
 import { EnterData } from "./screens/EnterData";
 import { MarkAttendance } from "./screens/MarkAttendance";
 import { ViewAttendance } from "./screens/ViewAttendance";
+import { CourseAtten } from "./screens/CourseAtten";
 
 const App = () => {
   let routes = useRoutes([
@@ -17,7 +18,8 @@ const App = () => {
     { path: "/TeacherLogin", element: <TeacherLogin /> },
     { path: "/EnterData", element: <EnterData /> },
     { path: "/MarkAttendance", element: <MarkAttendance /> },
-    { path: "/ViewAttendance", element: <ViewAttendance /> }
+    { path: "/ViewAttendance", element: <ViewAttendance /> },
+    { path: "/CourseAtten", element: <CourseAtten /> }
 
   ]);
   return routes;

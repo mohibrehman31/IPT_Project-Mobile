@@ -53,6 +53,8 @@ export const EnterData = () => {
   return (
     <div className="auth-form-container">
       <Image />
+      <h2>Hello, CS1313</h2>
+      <h3>Enter Data to Mark Attendance </h3>
       <form>
         <Dropdown
           placeHolder="Course"

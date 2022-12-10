@@ -1,7 +1,6 @@
 import * as React from "react";
-import '../styles/table.css'
-import { useNavigate } from "react-router-dom";
 
+import { useNavigate } from "react-router-dom";
 
 export const ViewAttendance = () => {
     const navigate = useNavigate();
@@ -9,32 +8,14 @@ export const ViewAttendance = () => {
         navigate(url);
     }
   return (
-    <div>
-            <div className="tableApp">
-    <table>
-      <tr>
-        <th>Date</th>
-        <th>Attendance</th>
-      </tr>
-      <tr>
-        <td>1-12-2022</td>
-        <td>P</td>
-      </tr>
-      <tr>
-        <td>1-12-2022</td>
-        <td>A</td>
-      </tr>
-      <tr>
-        <td>1-12-2022</td>
-        <td>L</td>
-      </tr>
-    </table>
-  </div>
-  <br/>
-  <button onClick={() =>navigateToPage('/StartPage')}>Logout</button>
+    <div className="auth-form-container">
+      <button onClick={() =>navigateToPage('/CourseAtten')}>CS3002</button>
+      <br/>
+      <button onClick={() =>navigateToPage('/CourseAtten')}>CS3003</button>
+      <br/>
+      <button onClick={() =>navigateToPage('/CourseAtten')}>BB1002</button>
+      <br/>
+      <button onClick={() =>navigateToPage('/CourseAtten')}>Logout</button>
     </div>
-
-
-
 );
 }

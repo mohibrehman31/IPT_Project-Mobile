@@ -76,7 +76,7 @@ namespace WebApplication1.Controllers
 
                               string Rollno = row["Rollno"].ToString();
                               string Name = row["Name"].ToString();
-                              string atten = row["Att"].ToString();
+                              string atten = row["Attendance"].ToString();
 
                               obj.attendance = atten;
                               obj.id = Rollno;
