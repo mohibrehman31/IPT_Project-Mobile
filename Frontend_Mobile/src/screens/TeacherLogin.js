@@ -8,13 +8,13 @@ import TextInput from "../components/TextInput";
 import BackButton from "../components/BackButton";
 import { emailValidator } from "../helpers/emailValidator";
 import { passwordValidator } from "../helpers/passwordValidator";
-// import axios from "axios";
+import axios from "axios";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: "", error: "" });
   const [password, setPassword] = useState({ value: "", error: "" });
 
-  const onLoginPressed = () => {
+  const onLoginPressed = async () => {
     // const emailError = emailValidator(email.value);
     // const passwordError = passwordValidator(password.value);
     // if (emailError || passwordError) {
@@ -22,7 +22,27 @@ export default function LoginScreen({ navigation }) {
     //   setPassword({ ...password, error: passwordError });
     //   return;
     // }
-    navigation.navigate("EnterData");
+    try {
+      await axios.post("https://localhost:44323/api/Login",
+        {
+          Name : email.value,
+          Pass : password.value
+        })
+        .then((responce) => {
+
+          if (responce.data != 'Fail' || responce.data != ''){
+            navigation.navigate("EnterData",{teacher_id : responce.data});
+          }
+          else{
+
+            alert("Login Failed")
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+
+    
   };
 
   return (

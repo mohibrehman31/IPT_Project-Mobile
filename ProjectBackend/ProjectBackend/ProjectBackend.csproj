@@ -191,7 +191,7 @@
     <Compile Include="Models\PostTeachesViewModel.cs" />
     <Compile Include="Models\SectionViewModel.cs" />
     <Compile Include="Models\StudentAttendanceViewModel.cs" />
-    <Compile Include="Models\teacher.cs" />
+    <Compile Include="Models\GetTeacherViewModel.cs" />
     <Compile Include="Models\TeachesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

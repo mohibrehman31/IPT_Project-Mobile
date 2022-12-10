@@ -88,6 +88,34 @@ namespace WebApplication1.Controllers
                return content;
           }
 
+          [HttpPost]
+          [Route("Login")]
+          public string Login([FromBody] GetTeacherViewModel T)
+          {
+               string responce_id = string.Empty;
+
+
+               try
+               {
+                    string command = "select Teacherid from Teacher where Name = @name and Pass = @pass;";
+                    da = new SqlDataAdapter(command, conn);
+                    da.SelectCommand.Parameters.Add("@name", T.Name);
+                    da.SelectCommand.Parameters.Add("@pass", T.Pass);
+
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    responce_id = dt.Rows[0]["Teacherid"].ToString();
+
+               }
+               catch(Exception e)
+               {
+                    responce_id = "Fail";
+               }
+
+               return responce_id;
+          }
+
 
           [HttpPost]
           [Route("GetSections")]
