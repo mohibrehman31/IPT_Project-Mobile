@@ -57,7 +57,7 @@ namespace ProjectBackend.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetTeaches")]
         public ArrayList GetTeaches([FromBody] TeachesViewModel i)
         {
@@ -97,7 +97,7 @@ namespace ProjectBackend.Controllers
         }
         
         
-        [HttpGet]
+        [HttpPost]
         [Route("GetTeachesSections")]
         public ArrayList GetTeachesSections()
         {
@@ -149,7 +149,7 @@ namespace ProjectBackend.Controllers
             return rw;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetSections")]
         public ArrayList GetSections([FromBody] GetParamSections i)
         {
@@ -186,7 +186,7 @@ namespace ProjectBackend.Controllers
             return regis;
         }
   
-        [HttpGet]
+        [HttpPost]
         [Route("GetAttendances")]
         public ArrayList GetAttendances()
         {
@@ -224,7 +224,7 @@ namespace ProjectBackend.Controllers
             return content; 
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetUpdatedAttendances")]
         public ArrayList GetUpdatedAttendances([FromBody] GetParamAttendance i )
         {
@@ -286,7 +286,7 @@ namespace ProjectBackend.Controllers
             return content;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetTeaches1")]
         public String GetTeaches1([FromBody] GetParamSections i)
         {
