@@ -1,6 +1,11 @@
 import React from "react";
-import './styles/loginform.css';
-import { StudentLogin } from "./components/StudentLogin";
+import "./styles/loginform.css";
+import {
+  StudentLogin,
+  TeacherLogin,
+  EnterData,
+  table,
+} from "./components/table";
 //import { TeacherLogin } from "./components/TeacherLogin";
 //import { EnterData } from "./components/EnterData";
 //import Table from "./components/table";
@@ -18,11 +23,10 @@ function App() {
     </div>
   );
 }*/
-    return(
+  return (
     <div className="App">
-          <StudentLogin />
-        </div>
-    )
-
+      <table />
+    </div>
+  );
 }
 export default App;
