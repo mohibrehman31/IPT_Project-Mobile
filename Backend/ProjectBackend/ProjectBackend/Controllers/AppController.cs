@@ -57,7 +57,7 @@ namespace ProjectBackend.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetTeaches")]
         public ArrayList GetTeaches([FromBody] TeachesViewModel i)
         {

@@ -13,7 +13,7 @@ namespace Attendance_System.PAL.forms
 {
     public partial class Formlogin : Form
     {
-        private string sql = @"Data Source = 0.tcp.in.ngrok.io,12752;Initial Catalog = ssss; User id = sa; Password=yourStrong(!)Password;";
+        private string sql = @"Data Source = 0.tcp.in.ngrok.io,15400;Initial Catalog = ssss; User id = sa; Password=yourStrong(!)Password;";
 
 
         public Formlogin()
