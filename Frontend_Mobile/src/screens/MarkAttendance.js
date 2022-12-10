@@ -14,7 +14,7 @@ import { Dropdown } from "react-native-element-dropdown";
 export default function MarkAttendance({route,navigation }) {
   
   const {teacher_id,selectedCourse,selectedSection,selectedCrHr,day,month,year} = route.params
-
+  const [Date, setDate] = React.useState();
 
 
   const data = [
@@ -37,6 +37,7 @@ export default function MarkAttendance({route,navigation }) {
   useEffect(() => {
 
     var date = month + '-' + day + '-' + year;
+    setDate(date);
 
     const getData = async () => {
       try {
@@ -48,6 +49,7 @@ export default function MarkAttendance({route,navigation }) {
           })
           .then((responce) => {
             setStates(responce.data)
+            console.log(states);
           
           });
       } catch (error) {
@@ -61,18 +63,27 @@ export default function MarkAttendance({route,navigation }) {
 
 
   const handleSubmit = async () =>{
-    // try {
-    //     await axios
-    //       .post("https://localhost:44323/api/GetUpdatedAttendances",{
-    //         attendances : states
-    //       })
-    //       .then((responce) => {
-    //         console.log(responce.data)
-    //       });
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-      console.log(states);
+
+    var data = states;
+
+    for(let i=0;i<data.length;i++){
+      data[i]["date"] = Date;
+      data[i]["teacher_id"] = teacher_id;
+      data[i]["course_id"] = selectedCourse;
+      data[i]["cr_hr"] = parseInt(selectedCrHr);
+    }
+    try {
+        await axios
+          .post("https://localhost:44323/api/InsertAttendances",{
+            attendances : data
+          })
+          .then((responce) => {
+            console.log(responce.data)
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      console.log(data);
     }
 
 
@@ -111,7 +122,7 @@ export default function MarkAttendance({route,navigation }) {
                 data={data}
                 labelField="label"
                 valueField="value"
-                placeholder="Enter"
+                placeholder={ x.attendance.length === 0 ? "Enter" : x.attendance}
                 value={data}
                 onChange={(item) => {
                   x.attendance = item.label;
@@ -165,6 +176,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderBottomColor: "gray",
     borderBottomWidth: 2,
+    paddingRight: '10px'
   },
   placeholderStyle: {
     fontSize: 16,

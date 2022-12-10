@@ -197,5 +197,49 @@ namespace WebApplication1.Controllers
                return temp;
           }
 
+
+          [HttpPost]
+          [Route("InsertAttendances")]
+
+          public string InsertAttendances([FromBody] PostInsertAttendance att)
+          {
+               
+               try
+               {
+
+                    List<Student> students = att.attendances;
+                    
+
+                   foreach( Student student in students)
+                    {
+                         string command = "insert into Student_Attendance (Date,Cr_hr,Attendance,Roll_no,Teacher_ID,Course_ID) values (@Date,@Cr_hr,@Attendance,@Roll_no,@Teacher_ID,@Course_ID);";
+                         cmd = new SqlCommand(command, conn);
+                         cmd.Parameters.Add("@Date", student.date);
+                         cmd.Parameters.Add("@Cr_hr", student.cr_hr);
+                         cmd.Parameters.Add("@Attendance", student.attendance);
+                         cmd.Parameters.Add("@Teacher_ID", student.teacher_id);
+                         cmd.Parameters.Add("@Course_ID", student.course_id);
+                         cmd.Parameters.Add("@Roll_no", student.id);
+
+                         conn.Open();
+                         int r = cmd.ExecuteNonQuery();
+                         conn.Close();
+
+
+                    }
+
+                    return "Success";
+
+               }
+               catch( Exception e)
+               {
+                    return "Fail to run";
+               }
+
+
+
+               return "Fail";
+          }
+
      }
 }
