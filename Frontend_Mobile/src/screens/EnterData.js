@@ -22,6 +22,9 @@ export default function EnterData({ route,navigation }) {
 
 
   useEffect(() => {
+
+    var cour;
+
     const getData = async () => {
 
       try {
@@ -31,20 +34,8 @@ export default function EnterData({ route,navigation }) {
           )
           .then((responce) => {
             setCourses(responce.data);
-          });
-      } catch (error) {
-        console.log(error);
-      }
-      try {
-        await axios
-          .post("https://localhost:44323/api/GetSections",
-          {
-            'teacher_id' : teacher_id,
-            'courses' : courses[0]["courses"]
-          })
-          .then((responce) => {
-            setSections(responce.data);
-            console.log(responce.data)
+            cour = responce.data[0]["courses"];
+
           });
       } catch (error) {
         console.log(error);
@@ -78,7 +69,7 @@ export default function EnterData({ route,navigation }) {
 
   const handleSubmit = () => {
 
-    navigation.navigate("SelectDate")
+    navigation.navigate("SelectDate",{teacher_id : teacher_id,selectedCourse : selectedCourse, selectedSection : selectedSection, selectedCrHr : selectedCrHr})
   }
 
 
@@ -99,7 +90,7 @@ export default function EnterData({ route,navigation }) {
         placeholder="Course"
         value="courses"
         onChange={(item) => {
-
+          console.log(item["courses"]);
           setSelectedCourse(item["courses"]);
           getSections();
         }}
@@ -115,7 +106,7 @@ export default function EnterData({ route,navigation }) {
         placeholder="Section"
         value="sections"
         onChange={(item) => {
-          // setValue(item.value);
+   
           setSelectedSection(item["sections"])
           console.log(item["sections"]);
         }}
@@ -133,8 +124,8 @@ export default function EnterData({ route,navigation }) {
         value="creditHrs"
         onChange={(item) => {
           // setValue(item.value);
-          // setSelectedCrHr(item["CrHr"]);
-          console.log(item["label"]);
+          setSelectedCrHr(item["creditHrs"]);
+          console.log(item["creditHrs"]);
         }}
       />
 

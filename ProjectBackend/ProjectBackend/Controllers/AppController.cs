@@ -28,22 +28,28 @@ namespace WebApplication1.Controllers
 
           [HttpPost]
           [Route("GetUpdatedAttendances")]
-          public ArrayList GetUpdatedAttendances()
+          public ArrayList GetUpdatedAttendances([FromBody] GetUpdatedAttendances T)
           {
 
                StudentAttendanceViewModel obj = new StudentAttendanceViewModel();
                ArrayList content = new ArrayList();
                try
                {
-                    string commandText = "select Student.Rollno,Student.Name,Student_Attendance.Attendance from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno inner join Student_Attendance on Student_Attendance.Roll_no=Student.Rollno  where Studies.Course_Code='CS3002' and Studies.section ='7G' and Student_Attendance.Date='02-08-2012'";
+                    string commandText = "select Student.Rollno,Student.Name,Student_Attendance.Attendance from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno inner join Student_Attendance on Student_Attendance.Roll_no=Student.Rollno  where Studies.Course_Code=@code and Studies.section =@section and Student_Attendance.Date=@date";
                     da = new SqlDataAdapter(commandText, conn);
+                    da.SelectCommand.Parameters.Add("@code", T.Course_Code);
+                    da.SelectCommand.Parameters.Add("@section", T.section);
+                    da.SelectCommand.Parameters.Add("@date", T.Date);
 
                     DataTable dt = new DataTable();
                     da.Fill(dt);
                     if (dt.Rows.Count <= 0)
                     {
-                         string commandText1 = "select Student.Rollno,Student.Name from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno  where Studies.Course_Code='CS3002' and Studies.section ='7G'";
+                         string commandText1 = "select Student.Rollno,Student.Name from Studies Inner Join Student on Student.Rollno=Studies.Student_Rollno  where Studies.Course_Code=@code and Studies.section =@section";
                          SqlDataAdapter da1 = new SqlDataAdapter(commandText1, conn);
+                         da1.SelectCommand.Parameters.Add("@code", T.Course_Code);
+                         da1.SelectCommand.Parameters.Add("@section", T.section);
+                        
 
                          DataTable dt1 = new DataTable();
                          da1.Fill(dt1);

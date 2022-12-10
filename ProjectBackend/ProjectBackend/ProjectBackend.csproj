@@ -188,6 +188,7 @@
     <Compile Include="Models\Attendance.cs" />
     <Compile Include="Models\GetSectionsViewModel.cs" />
     <Compile Include="Models\GetTeachesViewModel.cs" />
+    <Compile Include="Models\GetUpdatedAttendances.cs" />
     <Compile Include="Models\PostTeachesViewModel.cs" />
     <Compile Include="Models\SectionViewModel.cs" />
     <Compile Include="Models\StudentAttendanceViewModel.cs" />

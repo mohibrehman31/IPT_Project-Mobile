@@ -4,7 +4,10 @@ import { ScrollView, StyleSheet,Button } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import axios from "react-native-axios";
 
-const Table = () => {
+const Table = (props) => {
+
+  const {States} = props;
+
   const data = [
     { label: "P", value: "0" },
     { label: "A", value: "1" },
@@ -16,36 +19,40 @@ const Table = () => {
   const [itemsPerPage, setItemsPerPage] = React.useState(optionsPerPage[0]);
   const [states, setStates] = React.useState([]);
   const handleSubmit = async () =>{
-    try {
-        await axios
-          .post("https://localhost:44323/api/PostUpdatedAttendances",{
-            attendances : states
-          })
-          .then((responce) => {
-            console.log(responce.data)
-          });
-      } catch (error) {
-        console.log(error);
-      }
+    // try {
+    //     await axios
+    //       .post("https://localhost:44323/api/GetUpdatedAttendances",{
+    //         attendances : states
+    //       })
+    //       .then((responce) => {
+    //         console.log(responce.data)
+    //       });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
       console.log(states);
     }
   React.useEffect(() => {
      
     setPage(0);
-    const getData = async () => {
-      try {
-        await axios
-          .get("https://localhost:44323/api/GetUpdatedAttendances")
-          .then((responce) => {
-            setStates(responce.data)
+    // const getData = async () => {
+    //   try {
+    //     await axios
+    //       .post("https://localhost:44323/api/GetUpdatedAttendances",)
+    //       .then((responce) => {
+    //         setStates(responce.data)
+    //         var date = 
+    //         console.log(responce.data)
           
-          });
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    //       });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+
+    console.log(States)
     
-    getData();
+    // getData();
   }, [itemsPerPage]);
 
   return (

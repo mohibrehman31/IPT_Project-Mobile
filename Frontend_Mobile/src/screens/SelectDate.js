@@ -3,13 +3,9 @@ import { StyleSheet, Text, View } from "react-native";
 import DatePicker from "@dietime/react-native-date-picker";
 import Button from "../components/Button";
 
-export default function App({ navigation }) {
-  //   const current_date =
-  //     String(new Date().getDate()) +
-  //     "/" +
-  //     String(new Date().getMonth()) +
-  //     "/" +
-  //     String(new Date().getFullYear());
+export default function App({route, navigation }) {
+  const {teacher_id, selectedCourse,selectedSection, selectedCrHr} = route.params
+
 
   const [date, setDate] = useState();
   const [month, setMonth] = useState("");
@@ -53,7 +49,17 @@ export default function App({ navigation }) {
 
       <Button
         mode="contained"
-        onPress={() => navigation.navigate("MarkAttendance")}
+        onPress={() => {
+          navigation.navigate("MarkAttendance",{
+            teacher_id : teacher_id,
+            selectedCourse : selectedCourse,
+            selectedSection : selectedSection,
+            selectedCrHr : selectedCrHr,
+            day : date.getDate(),
+            month : date.getMonth()+1,
+            year : date.getFullYear()
+          });
+        }}
       >
         Next
       </Button>
