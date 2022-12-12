@@ -1,7 +1,7 @@
 # IPT_Project-Mobile
-##Student Attendance System
-###Group Members: Mohib ur Rehman, Midhat karim, Rutba Asghari, Tatheer Fatima, Subhan Saleem
-Sir we have implemented all the functionalities accoring to our project requirements.
+## Student Attendance System
+### Group Members: Mohib ur Rehman, Midhat karim, Rutba Asghari, Tatheer Fatima, Subhan Saleem
+##### Sir we have implemented all the functionalities accoring to our project requirements. MVC architecture being used using Api based controllers. All the front end applications are linked to single Backend.
 
 # Steps To Start 
 => Open Backend Folder and start ProjectBackend.sln in web.config inside connection string 
